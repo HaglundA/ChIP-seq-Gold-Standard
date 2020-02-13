@@ -1,0 +1,76 @@
+git config --global user.name "Alexander Haglund"
+git config --global user.email "ah3918@ic.ac.uk"
+
+
+#Initializes git in the current direcotry (tells it its a git folder)
+git init
+
+git status
+#gives an understanding of how git sees it
+
+git add ingredients.md
+
+#this adds ALL files that have been added to be committed
+
+git commit -m "text"
+
+#commits files with a message "-m"
+
+git log
+
+#Lets say you make a change to a text file. You go in,
+#edit it.
+#Git will track the change and then ask you to first
+#stage it (git add), then commit. Otherwise the files
+#will stay "modified" but without being staged and committed.
+
+#git log returns a list, and each change is named with a Hash number
+#ex: "a752520156adb0bffe4542ad2db74c122f2278fb"
+
+#You can show specific changes by:
+
+git show a752 #No need for full hash. Press ENTER
+
+#git forgets last commit, modification goes back to Staging area
+git reset --soft HEAD^
+
+#you can then readd it if you want using commit. But it will get a new
+#hash ID. Because of that, careful of changing history with shared files
+
+#You can undo the changes in the last commit (without removing commit)
+
+git revert --no-edit 71bcb
+
+git config --global alias.graph "log --all --graph --decorate --oneline"
+
+git graph
+
+git branch branchname
+
+git checkout branchname #switches branch, any commits will be on this branch
+
+git merge branch
+
+git checkout -b <branchname> #creates and switches to new branchname
+
+
+#---------------------------------------------------------------
+#MIRRORING GIT/GITHUB
+
+git remote add origin address of your remote repo 
+git push -u origin master
+#Pushes master files into "origin"
+
+git clone [address of remote repo]
+
+#syncrhonizes public repo to local
+
+#---------------------------------------------------------------
+#PUSHING and PULLING
+
+git add <changedfile>
+git commit -m "message"
+git push #Updates origin/master from local version
+
+
+git pull #Pulls remote changes locally

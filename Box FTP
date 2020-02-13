@@ -1,0 +1,1 @@
+ curl -1 -v --disable-epsv --ftp-skip-pasv-ip -u a.haglund19@imperial.ac.uk --ftp-ssl ftp.box.com  

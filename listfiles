@@ -1,0 +1,17 @@
+vi dirlists.py
+#-----------------------------------------------------------------------------
+
+import os
+import sys
+
+for root, dirs, files in os.walk(sys.argv[1]):
+    for dr in dirs:
+        dr = os.path.join(root, dr)
+        open(os.path.join(dr, "list.txt"), "wt").write(
+            ",".join(f for f in os.listdir(dr) if f != "list.txt")
+            )
+#-----------------------------------------------------------------------------
+
+#python3 /path/to/dirlists.py /path/to/maindirectory
+
+python3 dirlists.py /rds/general/user/ah3918/ephemeral/chipseq
