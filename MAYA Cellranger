@@ -1,0 +1,44 @@
+#STEP 1: MAKE GTF FILE
+
+#mkdir refdata-cellranger-mm10-3.0.0_premrna 
+#cd refdata-cellranger-mm10-3.0.0_premrna 
+
+#awk 'BEGIN{FS="\t"; OFS="\t"} $3 == "transcript"{ $3="exon"; print}' /rds/general/user/ma14618/ephemeral/CellRanger/refdata-cellranger-mm10-3.0.0/genes/genes.gtf > mm10-3.0.0.premrna.gtf
+
+#export PATH=/rds/general/user/ma14618/ephemeral/CellRanger/cellranger-3.1.0:$PATH
+
+#cellranger mkref --genome=mm10-3.0.0_premrna.gtf --fasta=/rds/general/user/ma14618/ephemeral/CellRanger/refdata-cellranger-mm10-3.0.0/fasta/genome.fa --genes=/rds/general/user/ma14618/ephemeral/CellRanger/refdata-cellranger-mm10-3.0.0_premrna/mm10-3.0.0.premrna.gtf --nthreads=32 
+
+
+#STEP2: CREATE PBSPRO TEMPLATE FILE
+
+#cd cellranger-3.0.2/martian-cs/v3.2.0/jobmanagers/
+
+#cp pbspro.template.example pbspro.template
+ 
+#PBS -N __MRO_JOB_NAME__
+#PBS -V
+#PBS -j oe
+#PBS -M rf1116@ic.ac.uk
+#PBS -l select=1:ncpus=4:mem=60gb
+#PBS -l walltime=24:00:00
+#PBS -o __MRO_STDOUT__
+#PBS -e __MRO_STDERR__
+
+#cd __MRO_JOB_WORKDIR__
+
+#__MRO_CMD__
+
+#STEP3: RUN Cellranger
+
+
+export PATH=/rds/general/user/ma14618/home/SCRATCH/ax4/CellRanger/cellranger-3.1.0:$PATH
+
+ID=PC
+NAME=PC
+FQ=/rds/general/user/ma14618/home/SCRATCH/ax4/sourceBiosciencePilot/bp100/HHKHTDRXX/PC
+
+cellranger count --id=$ID --fastqs=$FQ --sample=$NAME --transcriptome=/rds/general/user/ma14618/home/SCRATCH/ax4/CellRanger/refdata-cellranger-mm10-3.0.0_premrna/mm10-3.0.0_premrna.gtf --expect-cells=10000 --jobmode=pbspro --maxjobs=5 --localcores=10 --mempercore=12
+
+
+
