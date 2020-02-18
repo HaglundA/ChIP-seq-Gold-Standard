@@ -65,4 +65,5 @@ for files in /rds/general/user/ah3918/ephemeral/Janrefresh/chipseq/GSE*; do
   for d in $files/*UNIQUE.bam; do
     fastqc -d $files/fastqctemp -o $files/UNIQUEREADSQC $d
     multiqc $files/UNIQUEREADSQC -o $files/UNIQUEREADSQC
+  done
 done
