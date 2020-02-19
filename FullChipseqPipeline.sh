@@ -130,3 +130,8 @@ module load multiqc
 for folders in chipseq/GSE*;do
   multiqc $folders
 done
+
+
+# ------------------------------------------------------------------------------
+# 4. DUPLICATE REMOVAL/UNIQUE READS FILTERING
+# ------------------------------------------------------------------------------
