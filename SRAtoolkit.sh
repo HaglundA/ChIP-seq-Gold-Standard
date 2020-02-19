@@ -1,3 +1,5 @@
+
+
 PATH_SRA=/rds/general/user/ah3918/home/sratoolkit/bin
 $PATH_SRA/fastq-dump SRR6223102 SRR6223103 SRR6223104 SRR6223105
 

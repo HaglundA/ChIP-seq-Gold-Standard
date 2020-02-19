@@ -4,7 +4,8 @@
 #cd refdata-cellranger-mm10-3.0.0_premrna
 
 
-awk 'BEGIN{FS="\t"; OFS="\t"} $3 == "transcript"{ $3="exon"; print}' /rds/general/user/ah3918/ephemeral/CELLRANGER_GENOMES/mouse/refdata-cellranger-mm10-3.0.0/genes/genes.gtf > mm10-3.0.0.premrna.gtf
+awk 'BEGIN{FS="\t"; OFS="\t"} $3 == "transcript"{ $3="exon"; print}' \
+/rds/general/user/ah3918/ephemeral/CELLRANGER_GENOMES/mouse/refdata-cellranger-mm10-3.0.0/genes/genes.gtf > mm10-3.0.0.premrna.gtf
 
 #----------------------------------------------------------------------------------------------------------------------
 #PBS -lwalltime=24:00:00
@@ -13,9 +14,9 @@ awk 'BEGIN{FS="\t"; OFS="\t"} $3 == "transcript"{ $3="exon"; print}' /rds/genera
 genomeloc=/rds/general/user/ah3918/ephemeral/CELLRANGER_GENOMES/mouse/refdata-cellranger-mm10-3.0.0
 export PATH=/rds/general/user/ah3918/ephemeral/CELLRANGER/cellranger-3.1.0:$PATH
 
-cellranger mkref --genome=mm10-3.0.0.premrna.gtf \
+cellranger mkref --genome=CELLRANGERREFGENOME \
                 --fasta=$genomeloc/fasta/genome.fa \
---genes=$genomeloc/genes/mm10-3.0.0.premrna.gtf \
+--genes=$genomeloc/mm10-3.0.0.premrna.gtf \
 --ref-version=3.0.0
 
 
@@ -69,19 +70,4 @@ cd __MRO_JOB_WORKDIR__
 
 #STEP3: RUN Cellranger
 
-module load anaconda3/personal
-source activate Omega
-export PATH=/rds/general/user/ah3918/ephemeral/CELLRANGER/cellranger-3.1.0:$PATH
-
-
-ID=Run1702
-FQ=/rds/general/user/ah3918/ephemeral/SCRNA/
-
-cellranger count --id=$ID \
---fastqs=$FQ \
---transcriptome=/rds/general/user/ah3918/ephemeral/CELLRANGER_GENOMES/mouse/refdata-cellranger-mm10-3.0.0/genes/mm10-3.0.0.premrna.gtf   \
---expect-cells=10000 \
---jobmode=pbspro \
---maxjobs=5 \
---localcores=10 \
---mempercore=12
+xs
