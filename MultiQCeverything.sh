@@ -20,4 +20,11 @@ done
 
 
 for files in /rds/general/user/ah3918/ephemeral/FEBREFRESH/chipseq/chipseq/GSE*; do
-  mkdir $files/fastqctemp $files/QCAlignedBAM $files/QCAlignedNoDupsBAM $files/UNIQUEREADSQC
+  mkdir $files FINALQCREPORTS
+done
+
+
+
+for i in /rdsgpfs/general/ephemeral/user/ah3918/ephemeral/FEBREFRESH/chipseq/chipseq/GSE106220; do
+  multiqc $i/UNIQUEREADSQC $i/QCAlignedNoDupsBAM $i/QCAlignedBAM -o $i/FINALQCREPORTS -n "Finalreport"
+done

@@ -8,11 +8,11 @@
 # For any questions/suggestions/comments outside of github, please email me at
 # a.haglund@outlook.com
 #
-# ------------------------------------------------------------------------------
+# ==============================================================================
 # 1. DOWNLOADING DATASETS (GEO)
-# ------------------------------------------------------------------------------
+# ==============================================================================
 # 1. First, identify GSE dataset (ex. GSE23219)
-# 2. Identify the SRA database
+# 2. Identify the SRA database/SRA accession codes
 # 3. Change numbers accordingly (So far I have found no better way of downloading
 # multiple SRA files). Download SRA toolkit first.
 
@@ -21,12 +21,13 @@ export SRA_PATH=yourdirectory/SRAtoolkit/bin
 
 $PATH_SRA/fastq-dump cat sralist.text
 
-#Change "i" according to the last digits of the SRA accession codes to download iteratively
+# Change "i" according to the last digits of the SRA accession codes to download iteratively
+# (Unfortunately there is no better way to do this yet, or that I know of.)
 
 PATH_SRA=/rds/general/user/ah3918/home/sratoolkit/bin
-for (( i = 488; i <= 501; i++ ))
+for (( i = 3; i <= 5; i++ ))
   do
-  $PATH_SRA/fastq-dump SRR2062$i
+  $PATH_SRA/fastq-dump SRR361507$i
 done
 
 
@@ -38,9 +39,10 @@ fastqc -d FastQCtemp -o FastQCoutput *.fastq #<-input
 
 module load multiqc
 multiqc ./FastQCoutput
-# ------------------------------------------------------------------------------
+
+# ==============================================================================
 # 2. TRIMMING (Trimmomatic)
-# ------------------------------------------------------------------------------
+# ==============================================================================
 #Trimmomatic will trim out adapters used during sequencing process.
 
 Trimmomaticpath=yourdirectory/Trimmomatic-0.39
@@ -74,12 +76,12 @@ done
 
 #At this point, FastQC + MultiQC in step1 can be repeated to compare the quality of the reads pre/post-trimming
 
-# ------------------------------------------------------------------------------
+# ==============================================================================
 # 3. ALIGNMENT/MAPPING (STAR)
-# ------------------------------------------------------------------------------
-
+# ==============================================================================
 # 1. First, download appropriate genome files (fasta and gtf files). I have been using ENSEMBL mouse genome (mm10)
 # 2. Download STAR
+# (Using star here because it is generally faster)
 
 module load star/2.7.1a
 Genomelocation=yourgenomelocation/mm10
@@ -87,7 +89,6 @@ mkdir $Genomelocation/GenomeIndexSTAR
 
 # 3. Generate reference genome
 # If using an HPC, this is where i submit a PBS script
-
 
 vi STARgenome.qsub
 
@@ -110,7 +111,7 @@ vi STARalign.qsub
 
 # ------------------------------------------------------------------------------#VI TEXT editor
 
-# 3. Align reads
+# 4. Align reads
 
 #PBS -lwalltime=72:00:00
 #PBS -lselect=1:ncpus=8:ompthreads=8:mem=96gb
@@ -132,6 +133,6 @@ for folders in chipseq/GSE*;do
 done
 
 
-# ------------------------------------------------------------------------------
+# ==============================================================================
 # 4. DUPLICATE REMOVAL/UNIQUE READS FILTERING
-# ------------------------------------------------------------------------------
+# ==============================================================================
